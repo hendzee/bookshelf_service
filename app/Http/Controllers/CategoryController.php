@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    /** Get data */
     public function index(Request $request) {
         $category = Category::all();
 
