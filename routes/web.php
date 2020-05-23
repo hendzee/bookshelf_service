@@ -24,3 +24,7 @@ $router->put('descriptions/{id}', 'DescriptionController@update');
 /** Services route */
 $router->get('services/{id}', 'ServiceController@show');
 $router->put('services/{id}', 'ServiceController@update');
+
+/** Policies route */
+$router->get('policies/{id}', 'PolicyController@show');
+$router->put('policies/{id}', 'PolicyController@update');
