@@ -28,3 +28,10 @@ $router->put('services/{id}', 'ServiceController@update');
 /** Policies route */
 $router->get('policies/{id}', 'PolicyController@show');
 $router->put('policies/{id}', 'PolicyController@update');
+
+/** Support router */
+$router->get('supports', 'SupportController@index');
+$router->get('supports/{id}', 'SupportController@show');
+$router->post('supports', 'SupportController@store');
+$router->put('supports/{id}', 'SupportController@update');
+$router->delete('supports/{id}', 'SupportController@destroy');
