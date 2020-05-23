@@ -20,3 +20,7 @@ $router->delete('categories/{id}', 'CategoryController@destroy');
 /** Descriptions(Abouts) route */
 $router->get('descriptions/{id}', 'DescriptionController@show');
 $router->put('descriptions/{id}', 'DescriptionController@update');
+
+/** Services route */
+$router->get('services/{id}', 'ServiceController@show');
+$router->put('services/{id}', 'ServiceController@update');
