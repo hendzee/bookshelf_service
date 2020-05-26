@@ -17,7 +17,6 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('owner_id');
             $table->unsignedBigInteger('borrower_id');
-            $table->unsignedBigInteger('item_id');
             $table->string('status');
             $table->string('map_lat');
             $table->string('map_long');
@@ -28,7 +27,6 @@ class CreateTransactionsTable extends Migration
 
             $table->foreign('owner_id')->references('id')->on('users');
             $table->foreign('borrower_id')->references('id')->on('users');
-            $table->foreign('item_id')->references('id')->on('items');
         });
     }
 

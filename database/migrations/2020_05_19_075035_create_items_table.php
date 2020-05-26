@@ -16,14 +16,13 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('category_id');
+            $table->string('category_id');
             $table->string('title');
             $table->string('author');
             $table->date('publish_date');
             $table->string('cover');
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }
