@@ -31,16 +31,6 @@ class SupportController extends Controller
         return $request;
     }
 
-    /** Update data */
-    public function update(Request $request, $id) {
-        $support = Support::find($id);
-
-        $support->content = $request->content;
-        $support->save();
-
-        return $request;
-    }
-
     /** Destroy data */
     public function destroy($id) {
         Support::destroy($id);
