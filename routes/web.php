@@ -17,6 +17,12 @@ $router->post('categories', 'CategoryController@store');
 $router->put('categories/{id}', 'CategoryController@update');
 $router->delete('categories/{id}', 'CategoryController@destroy');
 
+/** Items route */
+$router->get('items', 'ItemController@index');
+$router->post('items', 'ItemController@store');
+$router->put('items/{id}', 'ItemController@update');
+$router->delete('items/{id}', 'ItemController@destroy');
+
 /** Descriptions(Abouts) route */
 $router->get('descriptions/{id}', 'DescriptionController@show');
 $router->put('descriptions/{id}', 'DescriptionController@update');
