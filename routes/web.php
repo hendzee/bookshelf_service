@@ -1,9 +1,4 @@
 <?php
-
-$router->get('/', function () use ($router) {
-    echo 'Hello World';
-});
-
 /** Users route */
 $router->get('users', 'UserController@index');
 $router->get('users/{id}', 'UserController@show');
