@@ -18,6 +18,12 @@ $router->post('items', 'ItemController@store');
 $router->put('items/{id}', 'ItemController@update');
 $router->delete('items/{id}', 'ItemController@destroy');
 
+/** Transactions route */
+$router->get('transactions', 'TransactionController@index');
+$router->post('transactions', 'TransactionController@store');
+$router->put('transactions/{id}', 'TransactionController@update');
+$router->delete('transactions/{id}', 'TransactionController@destroy');
+
 /** Descriptions(Abouts) route */
 $router->get('descriptions/{id}', 'DescriptionController@show');
 $router->put('descriptions/{id}', 'DescriptionController@update');
