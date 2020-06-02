@@ -39,5 +39,14 @@ class ResetCommand extends Command
     {
         $this->line('Run migration...');
         Artisan::call('migrate');
+
+        $this->line('Creating users data...');
+        Artisan::call('db:seed', ['--class' => 'UserSeeder']);
+        
+        $this->line('Creating categories data...');
+        Artisan::call('db:seed', ['--class' => 'UserSeeder']);
+
+        $this->line('Creating items data...');
+        Artisan::call('db:seed', ['--class' => 'ItemSeeder']);
     }
 }

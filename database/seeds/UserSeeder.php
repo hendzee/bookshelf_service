@@ -14,6 +14,8 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         $pass = 'PASSWORD123';
+        $photo = 'Photo.jpg';
+        $rating = 5;
 
         for ($i=0; $i<50; $i++) {
             DB::table('users')->insert([
@@ -22,6 +24,8 @@ class UserSeeder extends Seeder
                 'password' => $pass,
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
+                'photo' => $photo,
+                'rating' => $rating
             ]);
         }
     }

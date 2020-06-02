@@ -37,7 +37,7 @@ class TransactionController extends Controller
 
         $transaction->save();
 
-        /** Save detail data */
+        /** Save detail data - start */
         $transactionDetails = $request->transaction_details;
 
         if (!empty($transactionDetails)) {
@@ -52,6 +52,7 @@ class TransactionController extends Controller
 
             $transaction->transactionDetails->saveMany($saveData);
         }
+        /** Save detail data - end */
 
         return $request;
     }
