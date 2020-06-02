@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use App\TransactionDetails;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -35,6 +36,22 @@ class TransactionController extends Controller
         $transaction->expired_date = $request->expired_date;
 
         $transaction->save();
+
+        /** Save detail data */
+        $transactionDetails = $request->transaction_details;
+
+        if (!empty($transactionDetails)) {
+            $saveData = [];
+            
+            foreach ($transactionDetails as $detail) {
+                $newDetail = new TransactionDetails;
+                $newDetail->item_id = $detail['item_id'];
+
+                array_push($saveData, $newDetail);
+            }
+
+            $transaction->transactionDetails->saveMany($saveData);
+        }
 
         return $request;
     }
