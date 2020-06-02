@@ -48,5 +48,8 @@ class ResetCommand extends Command
 
         $this->line('Creating items data...');
         Artisan::call('db:seed', ['--class' => 'ItemSeeder']);
+
+        $this->line('Creating transactions data...');
+        Artisan::call('db:seed', ['--class' => 'TransactionSeeder']);
     }
 }
