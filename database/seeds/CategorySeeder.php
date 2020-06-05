@@ -12,17 +12,21 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $saveData = [];
+        $saveData = [
+            'FABLE', 
+            'HORROR', 
+            'ROMANCE', 
+            'FANTASY', 
+            'SAINS', 
+            'ECONOMY', 
+            'FICTION', 
+            'OTHER'
+        ];
 
-        array_push($saveData, 'FABLE');
-        array_push($saveData, 'HORROR');
-        array_push($saveData, 'ROMANCE');
-        array_push($saveData, 'FANTASY');
-        array_push($saveData, 'SAINS');
-        array_push($saveData, 'ECONOMY');
-        array_push($saveData, 'FICTION');
-        array_push($saveData, 'OTHER');
-
-        $category->saveMany($saveData);
+        for ($i=0; $i<count($saveData); $i++) {
+            DB::table('categories')->insert([
+                'lable' => $saveData[$i]
+            ]);
+        }
     }
 }
