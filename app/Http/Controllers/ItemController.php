@@ -27,7 +27,7 @@ class ItemController extends Controller
 
     /** Show specific data */
     public function show($id) {
-        $item = Item::find($id);
+        $item = Item::with('user')->find($id);
 
         return $item;
     }
