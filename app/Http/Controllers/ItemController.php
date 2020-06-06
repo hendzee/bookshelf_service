@@ -11,9 +11,15 @@ class ItemController extends Controller
     public function index(Request $request) {
         $item = Item::all();
 
-        /** Include user data */
+        /** Get data by specific condition or parameter */
         if ($request->has('user')) {
             $item = Item::with('user')->get();
+        }elseif($request->has('latest')){
+            $item = Item::with('user')->skip(0)->take(3)->get();
+        }elseif($request->has('recomendation')){
+            $item = Item::with('user')->skip(0)->take(1)->first();
+        }elseif($request->has('random')){
+            $item = Item::with('user')->skip(0)->take(1)->first();
         }
 
         return $item;

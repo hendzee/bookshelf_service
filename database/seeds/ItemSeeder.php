@@ -13,15 +13,26 @@ class ItemSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
+        $covers = [
+            'item_photo1.jpeg',
+            'item_photo2.jpeg',
+            'item_photo3.jpeg',
+            'item_photo4.jpeg',
+            'item_photo5.jpeg',
+        ];
+
+        $endpoint = 'http://192.168.1.13/bookshelf_service/storage/app/images/';
 
         for ($i=0; $i<20; $i++) {
+            $cover = $covers[rand(0, 4)];
+
             DB::table('items')->insert([
                 'user_id' => rand(1, 5),
                 'category_id' => rand(1, 5),
                 'title' => $faker->firstName . ' Biography',
                 'author' => $faker->firstName . ' ' . $faker->lastName,
                 'publish_date' => '2020-03-01',
-                'cover' => 'Cover.jpg'
+                'cover' => $endpoint . $cover
             ]);
         }
     }
