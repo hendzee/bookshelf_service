@@ -13,13 +13,13 @@ class ItemController extends Controller
 
         /** Get data by specific condition or parameter */
         if ($request->has('user')) {
-            $item = Item::with('user')->get();
+            $item = Item::orderBy('id', 'DESC')->with('user')->get();
         }elseif($request->has('latest')){
-            $item = Item::with('user')->skip(0)->take(3)->get();
+            $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(3)->get();
         }elseif($request->has('recomendation')){
-            $item = Item::with('user')->skip(0)->take(1)->first();
+            $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(1)->first();
         }elseif($request->has('random')){
-            $item = Item::with('user')->skip(0)->take(1)->first();
+            $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(1)->first();
         }
 
         return $item;
@@ -34,6 +34,19 @@ class ItemController extends Controller
 
     /** Store data */
     public function store(Request $request) {
+        $this->validate($request, [
+            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        
+        $imageName = '';
+
+        if ($request->file('cover')) {
+            $imagePath = $request->file('cover');
+            $imageName = $request->user_id . time() . $imagePath->getClientOriginalName();
+  
+            $path = $request->file('cover')->storeAs('images', $imageName);
+        }
+        
         $item = new Item;
 
         $item->user_id = $request->user_id;
@@ -41,7 +54,7 @@ class ItemController extends Controller
         $item->title = $request->title;
         $item->author = $request->author;
         $item->publish_date = $request->publish_date;
-        $item->cover = $request->cover;
+        $item->cover = 'http://192.168.1.13/bookshelf_service/storage/app/images/' . $imageName;
         $item->save();
 
         return $request;
