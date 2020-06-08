@@ -37,7 +37,7 @@ class ItemController extends Controller
         $item = new Item;
 
         $item->user_id = $request->user_id;
-        $item->category_id = $request->category_id;
+        $item->category = $request->category;
         $item->title = $request->title;
         $item->author = $request->author;
         $item->publish_date = $request->publish_date;
@@ -52,7 +52,7 @@ class ItemController extends Controller
         $item = Item::find($id);
 
         $item->user_id = $request->user_id;
-        $item->category_id = $request->category_id;
+        $item->category = $request->category;
         $item->title = $request->title;
         $item->author = $request->author;
         $item->publish_date = $request->publish_date;
