@@ -35,7 +35,7 @@ class ItemController extends Controller
     /** Store data */
     public function store(Request $request) {
         $this->validate($request, [
-            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
         ]);
         
         $imageName = '';
@@ -64,12 +64,29 @@ class ItemController extends Controller
     public function update(Request $request, $id) {
         $item = Item::find($id);
 
-        $item->user_id = $request->user_id;
+        /** If cover image has changed - start */
+        if ($request->has('cover')) {
+            $this->validate($request, [
+                'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
+            ]);
+            
+            $imageName = '';
+    
+            if ($request->file('cover')) {
+                $imagePath = $request->file('cover');
+                $imageName = $request->user_id . time() . $imagePath->getClientOriginalName();
+      
+                $path = $request->file('cover')->storeAs('images', $imageName);
+            }
+
+            $item->cover = 'http://192.168.1.13/bookshelf_service/storage/app/images/' . $imageName;
+        }
+        /** If cover image has changed - end */
+        
         $item->category = $request->category;
         $item->title = $request->title;
         $item->author = $request->author;
         $item->publish_date = $request->publish_date;
-        $item->cover = $request->cover;
         $item->save();
 
         return $request;
