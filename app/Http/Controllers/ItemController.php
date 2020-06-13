@@ -13,7 +13,7 @@ class ItemController extends Controller
 
         /** Get data by specific condition or parameter */
         if ($request->has('user')) {
-            $item = Item::orderBy('id', 'DESC')->with('user')->get();
+            $item = Item::orderBy('id', 'DESC')->with('user')->paginate(6);
         }elseif($request->has('latest')){
             $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(3)->get();
         }elseif($request->has('recomendation')){
