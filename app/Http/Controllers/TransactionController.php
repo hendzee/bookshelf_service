@@ -57,6 +57,45 @@ class TransactionController extends Controller
         return $request;
     }
 
+    /** Adding item only */
+    public function addItemOnly(Request $request) {
+        $transaction::where('borrower_id', $request->borrower_id)->first();
+
+        /** Save detail data - start */
+        $transactionDetails = $request->transaction_details;
+
+        if (!empty($transactionDetails)) {
+            $saveData = [];
+            
+            foreach ($transactionDetails as $detail) {
+                $newDetail = new TransactionDetails;
+                $newDetail->item_id = $detail['item_id'];
+
+                array_push($saveData, $newDetail);
+            }
+
+            $transaction->transactionDetails->saveMany($saveData);
+        }
+        /** Save detail data - end */
+
+        return $request;
+    }
+
+    /** Check listing status */
+    public function checkListingStatus($id) {
+        $transaction = Transaction::where('borrower_id', $id)
+            ->where('status', 'LISTING')
+            ->get();
+        
+        if (count ($transaction) > 0) {
+            // There are already exists
+            return 1;
+        }else {
+            // There are not exist
+            return 0;
+        }
+    }
+
     /** Update data */
     public function update(Request $request, $id) {
         $transaction = Transaction::find($id);

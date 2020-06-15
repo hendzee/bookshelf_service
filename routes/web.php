@@ -42,3 +42,6 @@ $router->get('supports', 'SupportController@index');
 $router->get('supports/{id}', 'SupportController@show');
 $router->post('supports', 'SupportController@store');
 $router->delete('supports/{id}', 'SupportController@destroy');
+
+/** Support function */
+$router->get('checkListingStatus/{id}', 'TransactionController@checkListingStatus');
