@@ -1,7 +1,7 @@
 <?php
 
 use App\Transaction;
-use App\TransactionDetail;
+use App\Loan;
 use Illuminate\Database\Seeder;
 
 class TransactionSeeder extends Seeder
@@ -29,13 +29,13 @@ class TransactionSeeder extends Seeder
         $saveData = [];
         
         for ($i=0; $i<3; $i++) {
-            $detail = new TransactionDetail;
+            $detail = new Loan;
             $detail->item_id = $i + 1;
 
             array_push($saveData, $detail);
         }
         /** Save detail iteem - end */
 
-        $transaction->transactionDetails()->saveMany($saveData);
+        $transaction->Loans()->saveMany($saveData);
     }
 }
