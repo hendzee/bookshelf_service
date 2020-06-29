@@ -26,14 +26,18 @@ class TransactionController extends Controller
 
         $getOwner = User::find($transaction->owner_id);
         $owner = $getOwner->first_name . ' ' . $getOwner->last_name;
+        $ownerRating = $getOwner->rating;
         
         $getBorrower = User::find($transaction->borrower_id);
         $borrower = $getBorrower->first_name . ' ' . $getBorrower->last_name;
+        $borrowerRating = $getBorrower->rating;
 
         $data['transaction'] = $transaction;
         $data['user'] = [
             'owner_name' => $owner,
-            'borrower_name' => $borrower
+            'owner_rating' => $ownerRating,
+            'borrower_name' => $borrower,
+            'borrower_rating' => $borrowerRating
         ];
         
         return $data;
