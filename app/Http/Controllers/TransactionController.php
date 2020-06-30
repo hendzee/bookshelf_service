@@ -154,6 +154,28 @@ class TransactionController extends Controller
         return $id;
     }
 
+    /** Update data to handover */
+    public function updateToAppointment($id) {
+        $transaction = Transaction::find($id);
+
+        $transaction->status = 'APPOINTMENT';
+
+        $transaction->save();
+
+        return $id;
+    }
+
+    /** Update data to cancel */
+    public function updateToCancel($id) {
+        $transaction = Transaction::find($id);
+
+        $transaction->status = 'CANCEL';
+
+        $transaction->save();
+
+        return $id;
+    }
+
     /** Destroy data */
     public function destroy($id) {
         Transaction::destroy($id);
