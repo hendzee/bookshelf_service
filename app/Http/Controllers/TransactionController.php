@@ -176,6 +176,23 @@ class TransactionController extends Controller
         return $id;
     }
 
+    /** Update map */
+    public function updateMap(Request $request, $id) {
+        $transaction = Transaction::find($id);
+
+        $transaction->map_lat = $request->map_lat;
+        $transaction->map_long = $request->map_long;
+        $transaction->map_note = $request->map_note;
+        $transaction->save();
+
+        try {
+            return $transaction;
+        } catch (Throwable $th) {
+            $response['message'] = 'Failed to update map';
+            return response()->json($response, 500);
+        }
+    }
+
     /** Destroy data */
     public function destroy($id) {
         Transaction::destroy($id);

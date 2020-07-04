@@ -25,6 +25,7 @@ $router->get('transactions/{id}', 'TransactionController@show');
 $router->post('transactions', 'TransactionController@store');
 $router->post('transactions/update/waiting/{id}', 'TransactionController@updateToWaiting');
 $router->post('transactions/update/appointment/{id}', 'TransactionController@updateToAppointment');
+$router->post('transactions/update/map/{id}', 'TransactionController@updateMap');
 $router->post('transactions/update/cancel/{id}', 'TransactionController@updateToCancel');
 $router->delete('transactions/{id}', 'TransactionController@destroy');
 
