@@ -178,14 +178,13 @@ class TransactionController extends Controller
 
     /** Update map */
     public function updateMap(Request $request, $id) {
-        $transaction = Transaction::find($id);
-
-        $transaction->map_lat = $request->map_lat;
-        $transaction->map_long = $request->map_long;
-        $transaction->map_note = $request->map_note;
-        $transaction->save();
-
         try {
+            $transaction = Transaction::find($id);
+            $transaction->map_lat = $request->map_lat;
+            $transaction->map_long = $request->map_long;
+            $transaction->map_note = $request->map_note;
+            $transaction->save();
+
             return $transaction;
         } catch (Throwable $th) {
             $response['message'] = 'Failed to update map';
