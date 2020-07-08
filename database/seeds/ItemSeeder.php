@@ -32,8 +32,8 @@ class ItemSeeder extends Seeder
             'OTHER'
         ];
 
-        $endpoint = 'http://192.168.1.13/bookshelf_service/storage/app/images/';
-
+        $endpoint = env('DB_HOST_LAN') . '/storage/app/images/';
+    
         for ($i=0; $i<20; $i++) {
             $cover = $covers[rand(0, 4)];
 

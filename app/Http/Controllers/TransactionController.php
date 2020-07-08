@@ -53,7 +53,8 @@ class TransactionController extends Controller
             $availableStatus = $this->checkAvailableBorrow($request->borrower_id);
 
             if ($availableStatus == 1) {
-                return response('Not available', 500);
+                $response['message'] = 'Item Not Available';
+                return response()->json($response, 500);
             }else {
                 return $this->addListingFirstTime($request);
             }
@@ -80,8 +81,8 @@ class TransactionController extends Controller
         $transaction = Transaction::where('borrower_id', $id)
             ->where(function($q){
                 $q->where('status', 'WAITING')
-                ->orWhere('status', 'MEETING')
-                ->orWhere('status', 'BORROWING');
+                ->orWhere('status', 'APPOINTMENT')
+                ->orWhere('status', 'BORROWED');
             })
             ->get();
         

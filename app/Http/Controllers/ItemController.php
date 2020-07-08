@@ -54,7 +54,7 @@ class ItemController extends Controller
         $item->title = $request->title;
         $item->author = $request->author;
         $item->publish_date = $request->publish_date;
-        $item->cover = 'http://192.168.1.13/bookshelf_service/storage/app/images/' . $imageName;
+        $item->cover = env('DB_HOST_LAN') . '/storage/app/images/' . $imageName;
         $item->save();
 
         return $request;
@@ -79,7 +79,7 @@ class ItemController extends Controller
                 $path = $request->file('cover')->storeAs('images', $imageName);
             }
 
-            $item->cover = 'http://192.168.1.13/bookshelf_service/storage/app/images/' . $imageName;
+            $item->cover = env('DB_HOST_LAN') . '/storage/app/images/' . $imageName;
         }
         /** If cover image has changed - end */
         
