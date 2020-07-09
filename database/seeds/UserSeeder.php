@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        $pass = 'PASSWORD123';
+        $pass = hash::make('password123');
         $photo = 'Photo.jpg';
         $rating = 5;
 

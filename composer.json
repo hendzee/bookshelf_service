@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.2.5",
+        "dusterio/lumen-passport": "^0.2.19",
         "flipbox/lumen-generator": "^6.0",
         "fzaninotto/faker": "^1.9",
         "laravel/lumen-framework": "^7.0",

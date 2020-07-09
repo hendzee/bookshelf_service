@@ -1,10 +1,14 @@
 <?php
+/** Login user */
+$router->post('login', 'AuthController@login');
+
 /** Users route */
-$router->get('users', 'UserController@index');
+$router->get('users', ['middleware' => ['auth:api'], 'uses' => 'UserController@index']);
 $router->get('users/{id}', 'UserController@show');
 $router->post('users', 'UserController@store');
 $router->put('users/{id}', 'UserController@update');
 $router->delete('users/{id}', 'UserController@destroy');
+
 
 /** Categories route */
 $router->get('categories', 'CategoryController@index');
