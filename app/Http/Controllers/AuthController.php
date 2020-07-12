@@ -47,16 +47,21 @@ class AuthController extends Controller
                 $user->password = $request->password;
                 $user->first_name = $request->first_name;
                 $user->last_name = $request->last_name;
-                $user->phone = '';
                 $user->photo = '';
                 $user->rating = 5;
     
                 $user->save();
-    
-                return $request;
+                
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                $response = [
+                    'id' => $user->id,
+                    'token' => $token
+                ];
+
+                return response($response, 200);
             }
         } catch (Throwable $th) {
-            $response['message'] = 'Create user failed';
+            $response['message'] = $th;
             return response()->json($response, 400);
         }
     }
