@@ -1,6 +1,7 @@
 <?php
 /** Login user */
 $router->post('login', 'AuthController@login');
+$router->post('register', 'AuthController@register');
 
 /** Users route */
 $router->get('users', ['middleware' => ['auth:api'], 'uses' => 'UserController@index']);
@@ -8,7 +9,6 @@ $router->get('users/{id}', ['middleware' => ['auth:api'], 'uses' => 'UserControl
 $router->post('users', ['middleware' => ['auth:api'], 'uses' => 'UserController@store']);
 $router->put('users/{id}', ['middleware' => ['auth:api'], 'uses' => 'UserController@update']);
 $router->delete('users/{id}', ['middleware' => ['auth:api'], 'uses' => 'UserController@destroy']);
-
 
 /** Categories route */
 $router->get('categories', ['middleware' => ['auth:api'], 'uses' => 'CategoryController@index']);
