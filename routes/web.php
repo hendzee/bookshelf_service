@@ -11,7 +11,7 @@ $router->put('users/{id}', ['middleware' => ['auth:api'], 'uses' => 'UserControl
 $router->delete('users/{id}', ['middleware' => ['auth:api'], 'uses' => 'UserController@destroy']);
 
 /** Categories route */
-$router->get('categories', ['middleware' => ['auth:api'], 'uses' => 'CategoryController@index']);
+$router->get('categories', 'CategoryController@index');
 $router->post('categories', ['middleware' => ['auth:api'], 'uses' => 'CategoryController@store']);
 $router->put('categories/{id}', ['middleware' => ['auth:api'], 'uses' => 'CategoryController@update']);
 $router->delete('categories/{id}', ['middleware' => ['auth:api'], 'uses' => 'CategoryController@destroy']);
@@ -24,13 +24,17 @@ $router->put('items/{id}', ['middleware' => ['auth:api'], 'uses' => 'ItemControl
 $router->delete('items/{id}', ['middleware' => ['auth:api'], 'uses' => 'ItemController@destroy']);
 
 /** Transactions route */
+$router->group(['prefix' => 'transactions/update'], function () use ($router) {
+    $router->post('waiting/{id}', 'TransactionController@updateToWaiting');
+    $router->post('appointment/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToAppointment']);
+    $router->post('map/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateMap']);
+    $router->post('cancel/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToCancel']);
+});
+
 $router->get('transactions', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@index']);
 $router->get('transactions/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@show']);
 $router->post('transactions', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@store']);
-$router->post('transactions/update/waiting/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToWaiting']);
-$router->post('transactions/update/appointment/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToAppointment']);
-$router->post('transactions/update/map/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateMap']);
-$router->post('transactions/update/cancel/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToCancel']);
+
 $router->delete('transactions/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@destroy']);
 
 /** Descriptions(Abouts) route */

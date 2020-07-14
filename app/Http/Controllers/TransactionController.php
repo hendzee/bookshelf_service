@@ -147,7 +147,7 @@ class TransactionController extends Controller
     /** Update data to waiting*/
     public function updateToWaiting($id) {
         $transaction = Transaction::find($id);
-
+        
         $transaction->status = 'WAITING';
 
         $transaction->save();
