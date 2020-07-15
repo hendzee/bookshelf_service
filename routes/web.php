@@ -26,9 +26,9 @@ $router->delete('items/{id}', ['middleware' => ['auth:api'], 'uses' => 'ItemCont
 /** Transactions route */
 $router->group(['prefix' => 'transactions/update'], function () use ($router) {
     $router->post('waiting/{id}', 'TransactionController@updateToWaiting');
-    $router->post('appointment/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToAppointment']);
-    $router->post('map/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateMap']);
-    $router->post('cancel/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@updateToCancel']);
+    $router->post('appointment/{id}', 'TransactionController@updateToAppointment');
+    $router->post('map/{id}', 'TransactionController@updateMap');
+    $router->post('cancel/{id}', 'TransactionController@updateToCancel');
 });
 
 $router->get('transactions', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@index']);
