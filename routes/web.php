@@ -26,6 +26,7 @@ $router->delete('items/{id}', ['middleware' => ['auth:api'], 'uses' => 'ItemCont
 /** Transactions route */
 $router->get('transactions', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@index']);
 $router->get('transactions/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@show']);
+$router->get('transactions/show-list/{id}', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@showList']);
 $router->post('transactions', ['middleware' => ['auth:api'], 'uses' => 'TransactionController@store']);
 
 $router->group(['middleware' => ['auth:api'], 'prefix' => 'transactions/update'], function () use ($router) {

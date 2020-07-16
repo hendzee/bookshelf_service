@@ -43,6 +43,47 @@ class TransactionController extends Controller
         return $data;
     }
 
+    /** Show specific list data */
+    public function showList(Request $request, $id) {
+        switch ($request->person) {
+            case 'STATUS_LEND':
+                $transaction = Transaction::where('owner_id', $id)
+                    ->where(function($q){
+                        $q->where('status', 'WAITING')
+                            ->orWhere('status', 'APPOINTMENT')
+                            ->orWhere('status', 'BORROWED');
+                    })
+                ->first();
+
+                if (!$transaction) {
+                    $response['notFound'] = true;
+                    return response()->json($response, 200);
+                }
+                
+                return $transaction; 
+
+            case 'STATUS_BORROW':
+                $transaction = Transaction::where('borrower_id', $id)
+                    ->where(function($q){
+                        $q->where('status', 'WAITING')
+                            ->orWhere('status', 'APPOINTMENT')
+                            ->orWhere('status', 'BORROWED');
+                    })
+                ->first();
+
+                if (!$transaction) {
+                    $response['notFound'] = true;
+                    return response()->json($response, 200);
+                }
+
+                return $transaction;
+            
+            default:
+                return 0;
+                break;
+        }
+    }
+
     /** Store data */
     public function store(Request $request) {
         $listStatus = $this->checkListingStatus($request->borrower_id);
