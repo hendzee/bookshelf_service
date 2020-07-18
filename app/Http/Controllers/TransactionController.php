@@ -143,11 +143,14 @@ class TransactionController extends Controller
         $transaction->owner_id = $request->owner_id;
         $transaction->borrower_id = $request->borrower_id;
         $transaction->status = 'LISTING';
+        $transaction->location_name = '-';
         $transaction->map_lat = '-';
         $transaction->map_long = '-';
         $transaction->map_note = '-';
-        $transaction->active_date = '2020-10-10';
-        $transaction->expired_date = '2020-10-10';
+        $transaction->owner_accepted = '-';
+        $transaction->borrower_accepted = '-';
+        $transaction->active_date = '-';
+        $transaction->expired_date = '-';
 
         $transaction->save();
 
@@ -222,6 +225,7 @@ class TransactionController extends Controller
     public function updateMap(Request $request, $id) {
         try {
             $transaction = Transaction::find($id);
+            $transaction->location_name = $request->location_name;
             $transaction->map_lat = $request->map_lat;
             $transaction->map_long = $request->map_long;
             $transaction->map_note = $request->map_note;

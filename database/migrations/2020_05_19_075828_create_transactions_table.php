@@ -18,11 +18,14 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('owner_id');
             $table->unsignedBigInteger('borrower_id');
             $table->string('status');
-            $table->string('map_lat');
-            $table->string('map_long');
-            $table->string('map_note');
-            $table->date('active_date');
-            $table->date('expired_date');
+            $table->string('location_name')->nullable();
+            $table->string('map_lat')->nullable();
+            $table->string('map_long')->nullable();
+            $table->string('map_note')->nullable();
+            $table->string('owner_accepted')->nullable();
+            $table->string('borrower_accepted')->nullable();
+            $table->date('active_date')->nullable();
+            $table->date('expired_date')->nullable();
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('users');
