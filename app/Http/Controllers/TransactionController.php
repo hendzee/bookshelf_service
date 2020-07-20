@@ -14,6 +14,38 @@ class TransactionController extends Controller
     public function index(Request $request) {
         $transaction = Transaction::all();
 
+        if ($request->has('borrower_id')){
+            $data = array();
+
+            $transaction = Transaction::with('loans', 'loans.items')
+                ->where('borrower_id', $request->borrower_id)
+                ->where('status', 'LISTING')
+                ->first();
+
+            if (!$transaction) {
+                $response['not_found'] = true;
+                return response()->json($response, 200);
+            }
+
+            $getOwner = User::find($transaction->owner_id);
+            $owner = $getOwner->first_name . ' ' . $getOwner->last_name;
+            $ownerRating = $getOwner->rating;
+            
+            $getBorrower = User::find($transaction->borrower_id);
+            $borrower = $getBorrower->first_name . ' ' . $getBorrower->last_name;
+            $borrowerRating = $getBorrower->rating;
+
+            $data['transaction'] = $transaction;
+            $data['user'] = [
+                'owner_name' => $owner,
+                'owner_rating' => $ownerRating,
+                'borrower_name' => $borrower,
+                'borrower_rating' => $borrowerRating
+            ];
+            
+            return $data;
+        }
+
         return $transaction;
     }
 
@@ -22,7 +54,13 @@ class TransactionController extends Controller
         $data = array();
 
         $transaction = Transaction::with('loans', 'loans.items')
-            ->find($id);
+            ->where('id', $id)
+            ->where(function($q){
+                $q->where('status', 'WAITING')
+                    ->orWhere('status', 'APPOINTMENT')
+                    ->orWhere('status', 'BORROWED');
+            })
+            ->first();
 
         $getOwner = User::find($transaction->owner_id);
         $owner = $getOwner->first_name . ' ' . $getOwner->last_name;
@@ -149,12 +187,9 @@ class TransactionController extends Controller
         $transaction->map_note = '-';
         $transaction->owner_accepted = '-';
         $transaction->borrower_accepted = '-';
-        $transaction->active_date = '-';
-        $transaction->expired_date = '-';
 
         $transaction->save();
 
-       
         $loan = new Loan;
         $loan->item_id = $request->item_id;
 
@@ -235,6 +270,72 @@ class TransactionController extends Controller
         } catch (Throwable $th) {
             $response['message'] = 'Failed to update map';
             return response()->json($response, 500);
+        }
+    }
+
+    /** Update to borrowed */
+    public function updateToBorrowed(Request $request, $id) {
+        $transaction = Transaction::find($id);
+
+        switch ($request->owner_status) {
+            case 'OWNER':
+                $transaction->owner_accepted = 'ACCEPTED';
+                $transaction->save();
+                break;
+
+            case 'BORROWER':
+                $transaction->borrower_accepted = 'ACCEPTED';
+                $transaction->save();
+                break;
+
+            default:
+                break;
+        }
+
+        if (strcmp($transaction->owner_accepted, 'ACCEPTED') == 0 && 
+            strcmp($transaction->borrower_accepted, 'ACCEPTED') == 0) {
+                
+            $transaction->status = 'BORROWED';
+            $transaction->save();
+
+            $response = 'Updated to borrowed';
+            return response()->json($response, 200);
+        }else {
+            $response = 'Both owner and borrower must be send confirmation.';
+            return response()->json($response, 200);
+        }
+    }
+
+    /** Update to returned */
+    public function updateToReturned(Request $request, $id) {
+        $transaction = Transaction::find($id);
+
+        switch ($request->owner_status) {
+            case 'OWNER':
+                $transaction->owner_accepted = 'RETURNED';
+                $transaction->save();
+                break;
+
+            case 'BORROWER':
+                $transaction->borrower_accepted = 'RETURNED';
+                $transaction->save();
+                break;
+
+            default:
+                break;
+        }
+
+        if (strcmp($transaction->owner_accepted, 'RETURNED') == 0 && 
+            strcmp($transaction->borrower_accepted, 'RETURNED') == 0) {
+                
+            $transaction->status = 'RETURNED';
+            $transaction->save();
+
+            $response = 'Items was returned';
+            return response()->json($response, 200);
+        }else {
+            $response = 'Both owner and borrower must be send confirmation.';
+            return response()->json($response, 200);
         }
     }
 
