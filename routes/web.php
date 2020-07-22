@@ -59,5 +59,4 @@ $router->post('supports', ['middleware' => ['auth:api'], 'uses' => 'SupportContr
 $router->delete('supports/{id}', ['middleware' => ['auth:api'], 'uses' => 'SupportController@destroy']);
 
 /** Loans router */
-// $router->delete('loans/{id}', ['middleware' => ['auth:api'], 'uses' => 'LoanController@destroy']);
-$router->delete('loans/{id}', 'LoanController@destroy');
+$router->delete('loans/{id}', ['middleware' => ['auth:api'], 'uses' => 'LoanController@destroy']);
