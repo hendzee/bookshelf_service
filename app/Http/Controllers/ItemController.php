@@ -26,6 +26,11 @@ class ItemController extends Controller
                 ->skip(0)
                 ->take(10)
                 ->get();
+        }elseif($request->has('search_detail')) {
+            $item = Item::where('title', 'like', '%' . $request->search . '%')
+                ->orderBy('id', 'DESC')
+                ->with('user')
+                ->paginate(6);
         }
 
         return $item;

@@ -17,8 +17,7 @@ $router->put('categories/{id}', ['middleware' => ['auth:api'], 'uses' => 'Catego
 $router->delete('categories/{id}', ['middleware' => ['auth:api'], 'uses' => 'CategoryController@destroy']);
 
 /** Items route */
-// $router->get('items', ['middleware' => ['auth:api'], 'uses' => 'ItemController@index']);
-$router->get('items', 'ItemController@index');
+$router->get('items', ['middleware' => ['auth:api'], 'uses' => 'ItemController@index']);
 $router->get('items/{id}', ['middleware' => ['auth:api'], 'uses' => 'ItemController@show']);
 $router->post('items', ['middleware' => ['auth:api'], 'uses' => 'ItemController@store']);
 $router->put('items/{id}', ['middleware' => ['auth:api'], 'uses' => 'ItemController@update']);
