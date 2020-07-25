@@ -20,6 +20,12 @@ class ItemController extends Controller
             $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(1)->first();
         }elseif($request->has('random')){
             $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(1)->first();
+        }elseif($request->has('search')) {
+            $item = Item::where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('category', 'like', '%' . $request->search . '%')
+                ->skip(0)
+                ->take(10)
+                ->get();
         }
 
         return $item;
