@@ -27,8 +27,19 @@ class ItemController extends Controller
                 ->take(10)
                 ->get();
         }elseif($request->has('search_detail')) {
+            $orderBy = 'title';
+            $ASC = 'asc';
+            
+            if (strcmp($request->order_by, 'ORDER_BY_DATE') == 0 ) {
+                $orderBy = 'publish_date';
+            }
+            
+            if (strcmp($request->asc, 'DESC')) {
+                $ASC = 'desc';
+            }
+
             $item = Item::where('title', 'like', '%' . $request->search_detail . '%')
-                ->orderBy('id', 'DESC')
+                ->orderBy($orderBy, $ASC)
                 ->with('user')
                 ->paginate(6);
         }
