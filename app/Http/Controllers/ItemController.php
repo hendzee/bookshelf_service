@@ -14,6 +14,11 @@ class ItemController extends Controller
         /** Get data by specific condition or parameter */
         if ($request->has('user')) {
             $item = Item::orderBy('id', 'DESC')->with('user')->paginate(6);
+        }elseif($request->has('user_specific')) {
+            $item = Item::where('user_id', $request->user_id)
+                ->orderBy('id', 'DESC')
+                ->with('user')
+                ->paginate(6);
         }elseif($request->has('latest')){
             $item = Item::orderBy('id', 'DESC')->with('user')->skip(0)->take(3)->get();
         }elseif($request->has('recomendation')){
@@ -39,6 +44,33 @@ class ItemController extends Controller
             }
 
             $item = Item::where('title', 'like', '%' . $request->search_detail . '%')
+                ->orderBy($orderBy, $ASC)
+                ->with('user')
+                ->paginate(6);
+        }elseif($request->has('search_with_user')){
+            $item = Item::where('user_id', $request->user_id)
+                ->where(function($q) {
+                    $q->where('title', 'like', '%' . $request->text . '%')
+                        ->orWhere('category', 'like', '%' . $request->text . '%');
+                })
+                ->orWhere('category', 'like', '%' . $request->search . '%')
+                ->skip(0)
+                ->take(10)
+                ->get();
+        }elseif($request->has('search_detail_with_user')){
+            $orderBy = 'title';
+            $ASC = 'asc';
+            
+            if (strcmp($request->order_by, 'ORDER_BY_DATE') == 0 ) {
+                $orderBy = 'publish_date';
+            }
+            
+            if (strcmp($request->asc, 'DESC')) {
+                $ASC = 'desc';
+            }
+
+            $item = Item::where('user_id', $request->user_id)
+                ->where('title', 'like', '%' . $request->search_detail . '%')
                 ->orderBy($orderBy, $ASC)
                 ->with('user')
                 ->paginate(6);
