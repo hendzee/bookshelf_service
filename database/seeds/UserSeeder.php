@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         $pass = hash::make('password123');
-        $photo = 'Photo.jpg';
+        $photo = env('DB_HOST_LAN') . '/storage/app/images/profile_default/profile_default.png';
         $rating = 5;
 
         for ($i=0; $i<50; $i++) {

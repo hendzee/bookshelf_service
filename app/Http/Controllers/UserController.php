@@ -24,13 +24,14 @@ class UserController extends Controller
     /** Store data */
     public function store(Request $request) {
         $user = new User;
+        $photo = env('DB_HOST_LAN') . '/storage/app/images/profile_default/profile_default.png';
 
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->password = $request->password;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
-        $user->photo = $request->photo;
+        $user->photo = $photo;
         $user->rating = $request->rating;
         $user->save();
 
