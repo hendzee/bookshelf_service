@@ -49,11 +49,10 @@ class ItemController extends Controller
                 ->paginate(6);
         }elseif($request->has('search_with_user')){
             $item = Item::where('user_id', $request->user_id)
-                ->where(function($q) {
+                ->where(function($q) use($request) {
                     $q->where('title', 'like', '%' . $request->text . '%')
                         ->orWhere('category', 'like', '%' . $request->text . '%');
                 })
-                ->orWhere('category', 'like', '%' . $request->search . '%')
                 ->skip(0)
                 ->take(10)
                 ->get();
@@ -70,7 +69,7 @@ class ItemController extends Controller
             }
 
             $item = Item::where('user_id', $request->user_id)
-                ->where('title', 'like', '%' . $request->search_detail . '%')
+                ->where('title', 'like', '%' . $request->search_detail_value . '%')
                 ->orderBy($orderBy, $ASC)
                 ->with('user')
                 ->paginate(6);
