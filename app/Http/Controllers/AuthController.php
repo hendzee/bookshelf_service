@@ -35,6 +35,7 @@ class AuthController extends Controller
 
     public function register(Request $request) {
         $user = User::where('email', $request->email)->first();
+        $photo = env('DB_HOST_LAN') . '/storage/app/images/profile_default/profile_default.png';
 
         try {
             if ($user) {
@@ -47,7 +48,7 @@ class AuthController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->first_name = $request->first_name;
                 $user->last_name = $request->last_name;
-                $user->photo = '';
+                $user->photo = $photo;
                 $user->rating = 5;
     
                 $user->save();
