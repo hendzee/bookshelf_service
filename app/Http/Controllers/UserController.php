@@ -42,13 +42,30 @@ class UserController extends Controller
     public function update(Request $request, $id) {
         $user = User::find($id);
 
+        /** If cover image has changed - start */
+        if ($request->has('photo')) {
+            $this->validate($request, [
+                'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4048',
+            ]);
+            
+            $imageName = '';
+    
+            if ($request->file('photo')) {
+                $imagePath = $request->file('photo');
+                $imageName = $request->user_id . time() . $imagePath->getClientOriginalName();
+      
+                $path = $request->file('photo')->storeAs('images', $imageName);
+            }
+
+            $user->photo = env('DB_HOST_LAN') . '/storage/app/images/' . $imageName;
+        }
+        /** If cover image has changed - end */
+
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->password = $request->password;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
-        $user->photo = $request->photo;
-        $user->rating = $request->rating;
+   
         $user->save();
 
         return $request;
