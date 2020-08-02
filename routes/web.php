@@ -1,7 +1,8 @@
 <?php
-/** Login user */
+/** Auth user */
 $router->post('login', 'AuthController@login');
 $router->post('register', 'AuthController@register');
+$router->get('check_user', 'AuthController@checkUser');
 
 /** Users route */
 $router->get('users', ['middleware' => ['auth:api'], 'uses' => 'UserController@index']);
